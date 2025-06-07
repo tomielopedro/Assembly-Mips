@@ -1,5 +1,4 @@
 .text
-
 main: sll $t0, $t1, 3
 andi $t0, $t1, 2
 addu $t0, $t1, $t2
