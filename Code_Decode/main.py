@@ -19,7 +19,10 @@ print(instructions_j)
 print(instructions_r)
 print(registers)
 
-
+def salvar_decodificacoes(lista):
+    with open('data/asm_to_hexa', 'a') as f:
+        for l in lista:
+            f.write(f'{l}\n')
 labels_dict = {
     instrucao[0].rstrip(':'): i
     for i, instrucao in enumerate(instrucoes_asm)
@@ -46,7 +49,7 @@ def calcular_deslocamento(start, end, label):
 
 print(labels_dict)
 print('========================')
-
+hexa_list = []
 for c, instrucoes in enumerate(instrucoes_asm):
 
     for i, instrucao in enumerate(instrucoes):
@@ -75,6 +78,7 @@ for c, instrucoes in enumerate(instrucoes_asm):
             print(inst)
             print(f'Binario: {binario} Tamanho -> {len(binario)}')
             print('Hexadecimal: ', hexa)
+            hexa_list.append(hexa)
 
         if instrucao in instructions_i.keys():
 
@@ -111,6 +115,7 @@ for c, instrucoes in enumerate(instrucoes_asm):
             print('Binario: ', binario)
             print('Hexadecimal: ', hexa)
             print(f'Binario: {binario} Tamanho -> {len(binario)}')
+            hexa_list.append(hexa)
 
         if instrucao in instructions_j.keys():
             opcode = instructions_j[instrucao]
@@ -122,9 +127,13 @@ for c, instrucoes in enumerate(instrucoes_asm):
                 instruct_j = InstrucaoTipoJ(instrucao, opcode, adress)
 
                 print(instruct_j.binary_format())
-                print(instruct_j.hexa_format())
+                hexa= instruct_j.hexa_format()
+                hexa_list.append(hexa)
 
 
+
+
+salvar_decodificacoes(hexa_list)
 
 print(labels_dict)
 
