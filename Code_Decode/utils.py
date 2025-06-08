@@ -11,3 +11,35 @@ def get_file_instructions(file):
 def get_json_data(file):
     with open(file, 'r') as f:
         return json.load(f)
+
+
+def salvar_decodificacoes(file, lista):
+    with open(file, 'w') as f:
+        for l in lista:
+            f.write(f'{l}\n')
+
+
+def buscar_chave(valor, dict):
+    for k, v in dict.items():
+        if v == valor:
+            return k
+
+
+def construir_labels(instrucoes_asm):
+    return {
+        linha[0].rstrip(':'): i
+        for i, linha in enumerate(instrucoes_asm)
+        if linha[0].endswith(':')
+    }
+
+
+def calcular_deslocamento(start, end, label, instrucoes_asm):
+    deslocamento = 0
+    for i in range(start, end):
+        linha = instrucoes_asm[i]
+        instrucao = linha[0]
+        if instrucao.startswith(label):
+            instrucao = linha[1]
+        deslocamento += 2 if instrucao in ('la', 'li') else 1
+    return deslocamento
+

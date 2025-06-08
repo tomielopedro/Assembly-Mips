@@ -1,0 +1,8 @@
+0x400000: sll $t0, $zero, 3
+andi $t0, $t1, 2
+addu $t0, $t1, $t2
+bne $t2, $t1, 0x7
+slt $t0, $t1, $s0
+lw $t0, 0($t0)
+sw $t1, 0($t1)
+0x7: j 0x400000
