@@ -13,28 +13,30 @@ def exibir_menu():
 def main():
     while True:
         exibir_menu()
-        escolha = input("Escolha uma opção: ")
+        escolha = input("> Escolha uma opção: ")
 
         if escolha == '1':
-            caminho = input("Digite o caminho do arquivo .asm: ").strip()
+            caminho = input(">> Digite o caminho do arquivo .asm: ").strip()
             if not os.path.exists(caminho):
-                print(f"Arquivo '{caminho}' não encontrado.")
+                print(f">> Arquivo '{caminho}' não encontrado. <<")
             else:
+                print("\n========== Resultado asm -> hexa ==========")
                 montar_arquivo(caminho)
 
         elif escolha == '2':
-            caminho = input("Digite o caminho do arquivo .txt com HEX: ").strip()
+            caminho = input(">> Digite o caminho do arquivo .txt com HEX: ").strip()
             if not os.path.exists(caminho):
-                print(f"Arquivo '{caminho}' não encontrado.")
+                print(f">> Arquivo '{caminho}' não encontrado. <<")
             else:
+                print("\n========== Resultado hexa -> asm ==========")
                 desmontar_arquivo(caminho)
 
         elif escolha == '0':
-            print("Encerrando.")
+            print(">> Encerrando.")
             break
 
         else:
-            print("Opção inválida. Tente novamente.")
+            print(">> Opção inválida. Tente novamente.")
 
 if __name__ == '__main__':
     main()

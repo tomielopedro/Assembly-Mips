@@ -77,7 +77,7 @@ def montar_I(tokens: List[str], linha: int) -> InstrucaoTipoI:
         desloc_str, base = tokens[2].split('(')
         base = base.rstrip(')')
         reg_base = registradores[base]
-        return InstrucaoTipoI(instrucao, codigo_opcode, reg_rt, reg_base, int(desloc_str))
+        return InstrucaoTipoI(instrucao, codigo_opcode, reg_base, reg_rt, int(desloc_str))
 
     # Caso imediato ou branch
     reg_rs = registradores[tokens[1]]
@@ -95,7 +95,7 @@ def montar_I(tokens: List[str], linha: int) -> InstrucaoTipoI:
             imediato = calcular_deslocamento(linha + 2, idx_label + 1, valor, instrucoes_brutas)
 
         # Inverte os registradores para branch
-        reg_rs, reg_rt = reg_rt, reg_rs
+        reg_rs, reg_rt = reg_rt,reg_rs
 
     return InstrucaoTipoI(instrucao, codigo_opcode, reg_rt, reg_rs, imediato)
 
@@ -107,7 +107,7 @@ def montar_J(tokens: List[str]) -> InstrucaoTipoJ:
     instrucao, label = tokens
     codigo_opcode = instrucoes_J[instrucao]
     idx_label = labels_map[label]
-    endereco = calcular_deslocamento(1, idx_label, label, instrucoes_brutas) * 4
+    endereco = calcular_deslocamento(0, idx_label, label, instrucoes_brutas)*4
 
     return InstrucaoTipoJ(instrucao, codigo_opcode, endereco)
 
@@ -152,9 +152,13 @@ def montar_arquivo(caminho_asm: str):
 
         resultado_hex.append(instr_obj.hexa_format())
 
-    salvar_decodificacoes('data/to_hexa.txt', resultado_hex)
+    salvar_decodificacoes('output/to_hexa.txt', resultado_hex)
+    print('===== HEXADECIMAL =====')
+    for cod in resultado_hex:
+        print(cod)
+    print('==================')
     print("\nMontagem concluída com sucesso!")
-    print("Saída salva em: data/to_hexa.txt")
+    print("Saída salva em: output/to_hexa.txt")
 
 
 

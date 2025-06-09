@@ -66,6 +66,7 @@ def desmontar_J(binary: str, instructions_j: Dict[str, int], labels_dict: Dict[s
     address = int(binary[6:], 2) << 2
     address_hex = hex(address)
     idx_instrucao = (address - 0x00400000) // 4
+    if address_hex=='0x400000': address_hex= 'main'
     labels_dict[f'{address_hex}: '] = idx_instrucao
 
     return InstrucaoTipoJ(opcode, opcode, address_hex)
@@ -110,11 +111,18 @@ def desmontar_arquivo(caminho_hex: str):
     # Adiciona labels no código ASM
     for label, index in labels_dict.items():
         asm_list[index] = label + asm_list[index]
+    if 'main: ' not in labels_dict.keys():  asm_list[0] = f'main: {asm_list[0]}'
+    asm_list.insert(0, '.text')
+    asm_list.insert(1, '.globl main')
 
     # Salva resultado
-    salvar_decodificacoes('data/to_asm.txt', asm_list)
+    salvar_decodificacoes('output/asm.asm', asm_list)
+    print('===== ASM =====')
+    for cod in asm_list:
+        print(cod)
+    print('===============')
     print("\nDesmontagem concluída com sucesso!")
-    print("Saída salva em: data/to_asm.txt")
+    print("Saída salva em: output/to_asm.asm")
 
 if __name__ == '__main__':
-    desmontar_arquivo('data/to_hexa.txt')
+    desmontar_arquivo('data/hexa.txt')
