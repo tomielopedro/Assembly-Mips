@@ -1,2 +1,13 @@
 .text
-main: sll $t0, $t1, 3
+.globl main
+main: lw $t3, 0($t3)
+lw $t0, 0($t3)
+lw $t2, 0($t3)
+lw $t1, 0($t2)
+beq $t1, $t0, 0x8
+addiu $t1, $t1, 1
+sw $t1, 0($t2)
+j 0x400028
+0x8: addiu $t0, $t0, 1
+sw $t0, 0($t3)
+0x400028: lw $t3, 0($t3)
